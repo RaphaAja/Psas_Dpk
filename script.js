@@ -24,3 +24,22 @@ window.onload = () => {
   }, 2000);
 
 };
+
+function showLogoutPopup(){
+
+    document.getElementById("logoutPopup")
+    .style.display = "flex";
+}
+
+function closeLogoutPopup(){
+
+    document.getElementById("logoutPopup")
+    .style.display = "none";
+}
+
+function confirmLogout(){
+
+    showPage('loginPage');
+
+    closeLogoutPopup();
+}
