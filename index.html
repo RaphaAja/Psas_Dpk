@@ -3,144 +3,103 @@
 
 <head>
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <meta name="theme-color" content="#8cff7d">
-
   <title>NexMed Mobile App</title>
 
-  <!-- FONT AWESOME -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-iL34QVwjWwTyksBt"></script>
 </head>
 
 <body>
 
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-circle"></div>
+    <p>Loading...</p>
+  </div>
+
   <div class="app">
 
-    <!-- SPLASH -->
-
     <div class="page active" id="splashPage">
-
       <div class="splash-container">
-
         <i class="fa-solid fa-heart-pulse"></i>
-
         <h1>NexMed</h1>
-
       </div>
-
     </div>
 
-    <!-- LOGIN -->
-
     <div class="page" id="loginPage">
-
       <div class="header-bg"></div>
       <div class="logo">
-
         <img src="Log0.png">
-
       </div>
 
       <div class="form-card">
-
         <label>Gmail</label>
-
-        <input type="email" placeholder="Masukkan Gmail">
+        <input type="email" id="loginEmail" placeholder="Masukkan Gmail">
 
         <label>Password</label>
-
-        <input type="password" placeholder="Masukkan Password">
+        <input type="password" id="loginPassword" placeholder="Masukkan Password">
 
         <p class="switch-text">
-
           Belum punya akun?
-
-          <span onclick="showPage('registerPage')">
-            Daftar
-          </span>
-
+          <span onclick="showPage('registerPage')">Daftar</span>
         </p>
 
-        <button onclick="showPage('homePage')">
+        <button onclick="prosesLogin()">
           Login
         </button>
-
       </div>
-
     </div>
 
-    <!-- REGISTER -->
-
     <div class="page" id="registerPage">
-
       <div class="header-bg"></div>
 
       <div class="register-form">
-
         <label>Email</label>
-        <input type="email">
+        <input type="email" id="regEmail">
 
         <label>Nomor Telepon</label>
-        <input type="text">
+        <input type="number" id="regPhone">
 
         <label>Password</label>
-        <input type="password">
+        <input type="password" id="regPassword">
 
-        <label>PIN Keamanan</label>
-        <input type="password">
+        <label>Nama Lengkap</label>
+        <input type="text" id="regName">
 
         <div class="btn-row">
-
           <button class="secondary" onclick="showPage('loginPage')">
-
             Back
-
           </button>
-
-          <button onclick="showPage('homePage')">
+          <button onclick="prosesRegister()">
             Next
           </button>
-
         </div>
-
       </div>
-
     </div>
 
-    <!-- HOME -->
-
     <div class="page" id="homePage">
-
       <div class="header-bg"></div>
 
       <div class="profile-card">
-
         <div class="avatar">
-
-          <img src="Profile.png">
-
+          <div id="userProfilePic" class="avatar-letter"></div>
         </div>
 
         <div class="profile-text">
-
-          <h3>Nio Ciel</h3>
-
+          <h3 id="userProfileName">Nio Ciel</h3>
           <p>
-            Status : Balita <br>
-            Height : 90 cm
+            Status : <span id="homeUserStatus">Unknown</span> <br>
+            Height : <span id="homeUserHeight">99 cm</span>
           </p>
-
           <p>
-            Weight : 13 kg
+            Weight : <span id="homeUserWeight">99 kg</span>
           </p>
-
         </div>
-
       </div>
 
       <div class="section-title">
@@ -148,505 +107,735 @@
       </div>
 
       <div class="menu-grid">
-
         <div class="menu-item" onclick="showPage('doctorPage')">
           <i class="fa-solid fa-user-doctor"></i>
         </div>
-
         <div class="menu-item" onclick="showPage('medicinePage')">
           <i class="fa-solid fa-prescription-bottle-medical"></i>
         </div>
-
-        <div class="menu-item">
-          <i class="fa-solid fa-file-medical"></i>
+        <div class="menu-item" onclick="showPage('notePage')">
+          <i class="fa-solid fa-note-sticky"></i>
         </div>
-
         <div class="menu-item" onclick="showPage('settingPage')">
           <i class="fa-solid fa-gear"></i>
         </div>
-
-        <div class="menu-item">
-          <i class="fa-solid fa-cart-shopping"></i>
-        </div>
-
         <div class="menu-item" onclick="showPage('mapsPage')">
-
           <i class="fa-solid fa-location-dot"></i>
-
         </div>
-
-        <div class="menu-item">
-          <i class="fa-solid fa-hospital"></i>
+        <div class="menu-item" onclick="showPage('activityPage')">
+          <i class="fa-solid fa-clock-rotate-left"></i>
         </div>
-
-        <div class="menu-item">
-          <i class="fa-solid fa-stethoscope"></i>
-        </div>
-
       </div>
 
       <div class="section-title section-news">
         Berita Kesehatan
       </div>
 
-      <div class="news-list">
-
-        <div class="news-card">
-
-          <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1200">
-
+      <div class="news-wrapper">
+        <div class="news-list" id="newsSlider">
+          <div class="news-card">
+            <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1200">
+          </div>
+          <div class="news-card">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200">
+          </div>
+          <div class="news-card">
+            <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?q=80&w=1200">
+          </div>
         </div>
 
-        <div class="news-card">
-
-          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200">
-
+        <div class="news-dots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
         </div>
-
       </div>
-
-
-      <!-- NAV -->
 
       <div class="bottom-nav">
-
         <div class="nav-item active-nav">
-
           <i class="fa-solid fa-house"></i>
-
         </div>
-
-        <div class="nav-item">
-
+        <div class="nav-item" onclick="showPage('notifPage')">
           <i class="fa-solid fa-bell"></i>
-
         </div>
-
         <div class="nav-item" onclick="showPage('profilePage')">
-
           <i class="fa-solid fa-user"></i>
-
         </div>
-
       </div>
-
     </div>
 
-    <!-- DOCTOR PAGE -->
+    <div class="page" id="notifPage">
+      <div class="notif-header">
+        <button class="back-btn" onclick="showPage('homePage')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+      </div>
+
+      <div class="notif-container">
+        <div class="notif-card">
+          Obat yang anda pesan hampir sampai nih...
+        </div>
+        <div class="notif-card">
+          Obat yang anda pesan hampir sampai nih...
+        </div>
+      </div>
+    </div>
 
     <div class="page" id="doctorPage">
-
       <div class="header-bg"></div>
-
       <div class="search-box doctor-search">
-
         <i class="fa-solid fa-magnifying-glass"></i>
-
         <input type="text" placeholder="Cari dokter">
-
       </div>
 
       <div class="doctor-list">
-
-        <!-- CARD 1 -->
         <div class="doctor-card">
-
           <img src="Dktr 1.jpg">
-
           <div class="doctor-info">
-
             <h3>Dr. Citra Zhang, Sp.A</h3>
-
-            <p>
-              Sukosewu No.25<br>
-              Banyumas
-            </p>
-
+            <p>Sukosewu No.25<br>Banyumas</p>
           </div>
-
           <div class="doctor-icons">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
             <i class="fa-solid fa-phone"></i>
-
           </div>
-
         </div>
 
-        <!-- CARD 2 -->
         <div class="doctor-card">
-
-          <img src="Dktr  2.jpg">
-
-          <div class="doctor-info">
-
-            <h3>Dr. Kevin Chen</h3>
-
-            <p>
-              Jl. Jendral Sudirman<br>
-              Banyumas
-            </p>
-
-          </div>
-
-          <div class="doctor-icons">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <i class="fa-solid fa-phone"></i>
-
-          </div>
-
-        </div>
-
-        <!-- CARD 3 -->
-        <div class="doctor-card">
-
-          <img src="Dktr 3.jpg">
-
-          <div class="doctor-info">
-
-            <h3>Dr. Tirta Mandira Hudhi</h3>
-
-            <p>
-              Purwokerto Utara<br>
-              Banyumas
-            </p>
-
-          </div>
-
-          <div class="doctor-icons">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <i class="fa-solid fa-phone"></i>
-
-          </div>
-
-        </div>
-
-        <!-- CARD 4 -->
-        <div class="doctor-card">
-
           <img src="Dktr 4.jpg">
-
           <div class="doctor-info">
-
-            <h3>Dr. Olivia Wang</h3>
-
-            <p>
-              Karanglewas<br>
-              Banyumas
-            </p>
-
+            <h3>Dr. Kevin Chen</h3>
+            <p>Jl. Jendral Sudirman<br>Banyumas</p>
           </div>
-
           <div class="doctor-icons">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
             <i class="fa-solid fa-phone"></i>
-
           </div>
-
         </div>
 
+        <div class="doctor-card">
+          <img src="Dktr 3.jpg">
+          <div class="doctor-info">
+            <h3>Dr. Tirta Mandira Hudhi</h3>
+            <p>Purwokerto Utara<br>Banyumas</p>
+          </div>
+          <div class="doctor-icons">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+        </div>
+
+        <div class="doctor-card">
+          <img src="Dktr  2.jpg">
+          <div class="doctor-info">
+            <h3>Dr. Olivia Wang</h3>
+            <p>Karanglewas<br>Banyumas</p>
+          </div>
+          <div class="doctor-icons">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+        </div>
       </div>
 
       <div class="doctor-btns">
-
-        <button onclick="showPage('homePage')">
-          Back
-        </button>
-
+        <button onclick="showPage('homePage')">Back</button>
       </div>
-
     </div>
 
-    <!-- MEDICINE PAGE -->
-
     <div class="page" id="medicinePage">
-
       <div class="header-bg"></div>
-
       <div class="search-box doctor-search">
-
         <i class="fa-solid fa-magnifying-glass"></i>
-
         <input type="text" placeholder="Cari obat">
-
       </div>
 
       <div class="medicine-grid">
-
-        <!-- ITEM 1 -->
         <div class="medicine-card">
-
-          <img src="obat1.png">
-
-          <button>Rp. 83.000</button>
-
+          <img src="Obat1.jpg">
+          <button onclick="openCheckout('Panadol', 'Rp. 83.000', 'Obat')">Rp. 83.000</button>
         </div>
-
-        <!-- ITEM 2 -->
         <div class="medicine-card">
-
-          <img src="obat2.png">
-
-          <button>Rp. 3.000</button>
-
+          <img src="Obat2.jpg">
+          <button onclick="openCheckout('Paracetamol', 'Rp. 3.000', 'Obat2.jpg')">Rp. 3.000</button>
         </div>
-
-        <!-- ITEM 3 -->
         <div class="medicine-card">
-
-          <img src="obat3.png">
-
-          <button>Rp. 65.000</button>
-
+          <img src="Obat3.webp">
+          <button onclick="openCheckout('Vitamin C', 'Rp. 65.000', 'Obat3.jpg')">Rp. 65.000</button>
         </div>
-
-        <!-- ITEM 4 -->
         <div class="medicine-card">
-
-          <img src="obat4.png">
-
-          <button>Rp. 44.000</button>
-
+          <img src="Obat4.jpg">
+          <button onclick="openCheckout('Betadine', 'Rp. 44.000', 'Obat4.jpg')">Rp. 44.000</button>
         </div>
-
-        <!-- ITEM 5 -->
         <div class="medicine-card">
-
-          <img src="obat5.png">
-
-          <button>Rp. 65.000</button>
-
+          <img src="Obat5.jpg">
+          <button onclick="openCheckout('Bodrex', 'Rp. 65.000', 'Obat5.jpg')">Rp. 65.000</button>
         </div>
-
-        <!-- ITEM 6 -->
         <div class="medicine-card">
-
-          <img src="obat6.png">
-
-          <button>Rp. 11.000</button>
-
+          <img src="Obat6.jpg">
+          <button onclick="openCheckout('Infus NaCl', 'Rp. 11.000', 'Obat6.jpg')">Rp. 11.000</button>
         </div>
-
       </div>
 
       <div class="medicine-btns">
-
-        <button onclick="showPage('homePage')">
-          Back
-        </button>
-
-        <button>
-          Next
-        </button>
-
+        <button onclick="showPage('homePage')">Back</button>
+        <button onclick="showPage('medicinePage2')">Next</button>
       </div>
-
     </div>
 
-    <!-- SETTING PAGE -->
+    <div class="page" id="medicinePage2">
+      <div class="header-bg"></div>
+      <div class="search-box doctor-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Cari obat">
+      </div>
+
+      <div class="medicine-grid">
+        <div class="medicine-card">
+          <img src="Obat7.jpeg">
+          <button onclick="openCheckout('Amoxicillin', 'Rp. 12.000', 'Obat7.jpg')">Rp. 12.000</button>
+        </div>
+        <div class="medicine-card">
+          <img src="Obat8.jpg">
+          <button onclick="openCheckout('OBH', 'Rp. 4.000', 'Obat8.jpeg')">Rp. 4.000</button>
+        </div>
+        <div class="medicine-card">
+          <img src="Obat9.webp">
+          <button onclick="openCheckout('Antangin', 'Rp. 6.900', 'obat9.png')">Rp. 6.900</button>
+        </div>
+        <div class="medicine-card">
+          <img src="Obat10.jpg">
+          <button onclick="openCheckout('Mixagrip', 'Rp. 52.000', 'obat10.png')">Rp. 52.000</button>
+        </div>
+        <div class="medicine-card">
+          <img src="Obat11.webp">
+          <button onclick="openCheckout('Promag', 'Rp. 37.000', 'obat11.png')">Rp. 37.000</button>
+        </div>
+        <div class="medicine-card">
+          <img src="Obat12.webp">
+          <button onclick="openCheckout('Diapet', 'Rp. 75.000', 'obat12.png')">Rp. 75.000</button>
+        </div>
+      </div>
+
+      <div class="medicine-btns">
+        <button onclick="showPage('medicinePage')">Back</button>
+      </div>
+    </div>
+
+    <div class="page" id="checkoutPage">
+      <div class="header-bg"></div>
+      <div class="checkout-top">
+        <button class="checkout-back" onclick="showPage('medicinePage')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="checkout-profile">
+          <div id="userProfilePicCheckout" class="avatar-letter-checkout"></div>
+        </div>
+      </div>
+
+      <div class="address-box">
+        <h3 id="checkoutUserName">Rafa Aldivo </h3>
+        <p>Jl. Kartini No.30, Rt 06/Rw 01, Kecamatan Semarang Tengah, Kota Semarang, Jawa Tengah</p>
+      </div>
+
+      <div class="checkout-product">
+        <img id="checkoutImg" src="obat1.png">
+        <div class="checkout-info">
+          <h3 id="checkoutTitle">Panadol</h3>
+          <p>1. Obat penurun demam, sakit gigi, dll</p>
+          <span id="checkoutPrice">Rp. 83.000</span>
+        </div>
+      </div>
+
+      <div class="checkout-section">
+        <h3>Estimasi Tiba</h3>
+        <p>Hari ini</p>
+      </div>
+
+      <div class="checkout-section">
+        <h3>Rincian Pembayaran</h3>
+        <div class="payment-detail">
+          <div>
+            <span>Subtotal Pesanan</span>
+            <span id="subtotalText">Rp. 83.000</span>
+          </div>
+          <div>
+            <span>Subtotal Pengiriman</span>
+            <span>Rp. 10.000</span>
+          </div>
+          <div>
+            <span>Biaya Layanan</span>
+            <span>Rp. 2.000</span>
+          </div>
+          <div class="total-row">
+            <span>Total Pembayaran</span>
+            <span id="totalText">Rp. 95.000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-footer">
+        <div class="total-box">
+          <p>Total Pembayaran</p>
+          <span id="footerTotal">Rp. 95.000</span>
+        </div>
+
+        <button class="order-btn" onclick="bayarPakaiMidtrans()">
+          Buat Pesanan
+        </button>
+      </div>
+    </div>
 
     <div class="page" id="settingPage">
-
       <div class="header-bg"></div>
-
       <div class="setting-grid">
-
-        <!-- ITEM 1 -->
-        <div class="setting-item">
-          <i class="fa-solid fa-gear"></i>
+        <div class="setting-item" onclick="showPage('securityPage')">
+          <i class="fa-solid fa-shield"></i>
         </div>
-
-        <!-- ITEM 2 -->
-        <div class="setting-item">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-
-        <!-- ITEM 3 -->
-        <div class="setting-item">
+        <div class="setting-item" onclick="showPage('paymentPage')">
           <i class="fa-solid fa-hand-holding-dollar"></i>
         </div>
-
-        <!-- ITEM 4 -->
-        <div class="setting-item">
-          <i class="fa-solid fa-handshake-angle"></i>
-        </div>
-
-        <!-- ITEM 5 -->
-        <div class="setting-item logout-item" onclick="showLogoutPopup()">
-
+        <div class="setting-item" onclick="showLogoutPopup()">
           <i class="fa-solid fa-right-from-bracket"></i>
-
         </div>
-
-      </div>
-
-      <!-- LOGOUT POPUP -->
-
-      <div class="logout-popup" id="logoutPopup">
-
-        <div class="logout-box">
-
-          <p>
-            Apakah anda ingin keluar dari akun ini
-          </p>
-
-          <div class="logout-actions">
-
-            <button class="yes-btn" onclick="confirmLogout()">
-
-              Iya
-
-            </button>
-
-            <button class="no-btn" onclick="closeLogoutPopup()">
-
-              Tidak
-
-            </button>
-
-          </div>
-
+        <div class="setting-item" onclick="showPage('CSPage')">
+          <i class="fa-solid fa-headset"></i>
         </div>
-
       </div>
-
       <div class="setting-btns">
-
-        <button onclick="showPage('homePage')">
-          Back
-        </button>
-
+        <button onclick="showPage('homePage')">Back</button>
       </div>
-
     </div>
 
-    <!-- MAPS -->
+    <div class="page" id="securityPage">
+      <div class="header-bg"></div>
+      <div class="security-top">
+        <button class="security-back" onclick="showPage('settingPage')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="security-icon">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+      </div>
+
+      <div class="security-list">
+        <div class="security-item">Verifikasi Pin</div>
+        <div class="security-item">Ganti Pin</div>
+        <div class="security-item">Passkey</div>
+        <div class="security-item security-toggle">
+          <span>Location Permission</span>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="logout-popup" id="logoutPopup">
+      <div class="logout-box">
+        <p>Apakah anda ingin keluar dari akun ini</p>
+        <div class="logout-actions">
+          <button class="yes-btn" onclick="confirmLogout()">Iya</button>
+          <button class="no-btn" onclick="closeLogoutPopup()">Tidak</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="CSPage">
+      <div class="header-bg"></div>
+      <div class="cs-title">Customer Service</div>
+      <div class="cs-chat-box" id="chatBox">
+        <div class="cs-message">Tuliskan keluhan anda tentang kami.</div>
+      </div>
+      <div class="cs-input-area">
+        <input type="text" id="chatInput" placeholder="Tuliskan Keluhan">
+        <button onclick="sendMessage()">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+      <div class="cs-btns-bottom">
+        <button onclick="showPage('settingPage')">Back</button>
+      </div>
+    </div>
+
+    <div class="page" id="paymentPage">
+
+      <button class="payment-back" onclick="showPage('checkoutPage')">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+
+      <h2 class="payment-title">
+        Pilih Metode Pembayaran
+      </h2>
+
+      <div class="payment-list-box">
+
+        <div class="payment-item">
+          <img src="logo-ovo.png" alt="OVO">
+          <span>OVO</span>
+        </div>
+
+        <div class="payment-item">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA">
+          <span>DANA</span>
+        </div>
+
+        <div class="payment-item">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay">
+          <span>GoPay</span>
+        </div>
+
+        <div class="payment-item">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/QRIS_logo.svg" alt="QRIS">
+          <span>QRIS</span>
+        </div>
+
+        <div class="payment-item">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Bank_Central_Asia.svg" alt="BCA">
+          <span>Transfer Bank</span>
+        </div>
+
+      </div>
+
+      <button class="payment-btn" onclick="bayarPakaiMidtrans()">
+        Bayar Sekarang
+      </button>
+
+    </div>
 
     <div class="page" id="mapsPage">
-
       <div class="header-bg"></div>
-
       <div class="search-box">
-
         <i class="fa-solid fa-magnifying-glass"></i>
-
         <input type="text" placeholder="Cari lokasi kesehatan">
-
       </div>
-
       <div class="maps-list">
-
         <div class="maps-card">
-
           <img src="pcs4.jpeg">
-
           <div class="maps-info">
-
             <h3>Puskesmas 1</h3>
-
-            <p>
-              Purwokerto Lor,
-              Jawa Tengah
-            </p>
-
-            <div class="stars">
-              ★★★★★
-            </div>
-
+            <p>Purwokerto Lor, Jawa Tengah</p>
+            <div class="stars">★★★★★</div>
           </div>
-
         </div>
-
         <div class="maps-card">
-
           <img src="pks2.jpeg">
-
           <div class="maps-info">
-
             <h3>Puskesmas 2</h3>
-
-            <p>
-              Purwokerto Selatan
-            </p>
-
-            <div class="stars">
-              ★★★★☆
-            </div>
-
+            <p>Purwokerto Selatan</p>
+            <div class="stars">★★★★☆</div>
           </div>
-
         </div>
-
       </div>
-
       <div class="maps-btns">
-
-        <button onclick="showPage('homePage')">
-          Kembali
-        </button>
-
-        <button>
-          Lainnya
-        </button>
-
+        <button onclick="showPage('homePage')">Kembali</button>
+        <button>Lainnya</button>
       </div>
-
     </div>
 
-    <!-- PROFILE -->
-
     <div class="page" id="profilePage">
-
       <div class="header-bg"></div>
-
       <div class="profile-edit-top">
-
         <div class="profile-photo">
-
-          <img src="Profile.png">
-
+          <div id="userProfilePicDetail" class="avatar-letter-detail"></div>
         </div>
-
-        <div class="profile-name-box">
+        <div class="profile-name-box" id="userProfileNameDetail">
           Nio Ciel
         </div>
-
       </div>
 
       <div class="profile-edit-form">
-
-        <input type="text" placeholder="Status">
-
-        <input type="text" placeholder="Birthday">
-
-        <input type="text" placeholder="Hobby">
-
-        <input type="text" placeholder="Height">
-
-        <input type="text" placeholder="Weight">
-
-        <button class="save-btn" onclick="showPage('homePage')">
-
-          Save Change
-
-        </button>
-
+        <input type="text" id="editStatus" placeholder="Status">
+        <input type="text" id="editBirthday" placeholder="Birthday">
+        <input type="text" id="editHobby" placeholder="Hobby">
+        <input type="text" id="editHeight" placeholder="Height (example: 90 cm)">
+        <input type="text" id="editWeight" placeholder="Weight (example: 13 kg)">
+        <button class="save-btn" onclick="simpanPerubahanProfil()">Save Change</button>
       </div>
+    </div>
+
+    <div class="page" id="cartPage">
+      <div class="header-bg"></div>
+      <div class="cart-icon-top">
+      </div>
+
+      <div class="cart-list">
+        <div class="cart-card">
+          <div class="cart-dot"></div>
+          <img src="obat2.png">
+          <div class="cart-info">
+            <h3>Paracetamol</h3>
+            <p>Paracetamol (asetaminofen) adalah obat analgesik (peredah nyeri) dan antipiretik (penurun demam) yang
+              aman untuk anak-anak hingga lansia jika dosisnya tepat.</p>
+            <div class="cart-bottom">
+              <span>Rp. 10.000</span>
+              <div class="cart-actions">
+                <button class="back-cart">Batal</button>
+                <button class="buy-btn">Beli</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-card">
+          <div class="cart-dot"></div>
+          <img src="obat4.png">
+          <div class="cart-info">
+            <h3>Betadine</h3>
+            <p>Betadine adalah merek produk antiseptik terkenal yang mengandung povidone-iodine untuk membunuh kuman
+              penyebab infeksi.</p>
+            <div class="cart-bottom">
+              <span>Rp. 15.000</span>
+              <div class="cart-actions">
+                <button class="back-cart">Batal</button>
+                <button class="buy-btn">Beli</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-card">
+          <div class="cart-dot"></div>
+          <img src="obat6.png">
+          <div class="cart-info">
+            <h3>Infus NaCl 0.9%</h3>
+            <p>Infus NaCl 0.9% digunakan untuk mengganti cairan tubuh dan rehidrasi.</p>
+            <div class="cart-bottom">
+              <span>Rp. 67.000</span>
+              <div class="cart-actions">
+                <button class="back-cart">Batal</button>
+                <button class="buy-btn">Beli</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-btns">
+        <button class="back-cart" onclick="showPage('homePage')">Kembali</button>
+        <button class="buy-all">Beli Semua</button>
+      </div>
+    </div>
+
+    <div class="page" id="notePage">
+      <div class="header-bg"></div>
+      <div class="note-top">
+        <button class="note-back" onclick="showPage('homePage')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="note-logo">
+          <img src="Logo.png">
+        </div>
+      </div>
+
+      <div class="note-grid">
+        <div class="note-card">
+          <h3>Surat Keterangan Sakit</h3>
+
+          <div class="note-editor">
+
+            <input type="text" id="namaDokter" value="dr. Alya Safira Putri" placeholder="Nama Dokter">
+
+            <input type="text" id="alamatKlinik" value="Klinik Sehat Sentosa" placeholder="Alamat Klinik">
+
+            <input type="text" id="namaPasien" value="Alvero Nathanael Pradipta" placeholder="Nama Pasien">
+
+            <input type="number" id="umurPasien" value="16" placeholder="Umur">
+
+            <textarea id="keteranganSakit">
+Telah diperiksa dan dalam kondisi kurang sehat sehingga memerlukan istirahat selama 3 hari.
+</textarea>
+
+            <input type="text" id="lokasiTanggal" value="Boyolali, 26 Mei 2026">
+
+            <button onclick="simpanSuratSakit()">
+              Simpan Surat
+            </button>
+
+          </div>
+
+          <div class="note-paper" id="previewSurat">
+            <!-- Preview surat -->
+          </div>
+        </div>
+      </div>
+
+      <div class="note-card">
+        <h3>Note Dokter</h3>
+        <div class="note-paper">
+          <p>
+            Catatan Dokter<br><br>
+            Pasien disarankan:<br>
+            • Istirahat cukup<br>
+            • Minum obat teratur<br>
+            • Banyak minum air putih<br>
+            • Kontrol kembali bila demam belum turun dalam 3 hari
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="activityPage">
+    <div class="header-bg"></div>
+    <div class="activity-top">
+      <button class="activity-back" onclick="showPage('homePage')">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-header">
+        <h2>Baru-baru ini</h2>
+        <div class="history-btn">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Riwayat</span>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <img src="obat2.png">
+        <div class="activity-info">
+          <h3>Paracetamol 500 mg (10 Tablet)</h3>
+          <span class="price">Rp 28.500</span>
+          <p><i class="fa-solid fa-shield-heart"></i> Dari Apotek NexMed</p>
+          <p><i class="fa-solid fa-location-dot"></i> Jl. Jendral Sudirman No 123, Purwokerto, Banyumas</p>
+          <small>20 Mei 2026, 14.13</small>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <img src="obat3.png">
+        <div class="activity-info">
+          <h3>Vitamin C 500 mg (20 Tablet)</h3>
+          <span class="price">Rp 32.000</span>
+          <p><i class="fa-solid fa-shield-heart"></i> Dari Apotek NexMed</p>
+          <p><i class="fa-solid fa-location-dot"></i> Perumahan Mes Indah Blok B2 No 10, Purwokerto, Banyumas</p>
+          <small>30 Mei 2026, 22.00</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT RESULT -->
+
+  <div class="page" id="paymentSuccessPage">
+
+    <div class="payment-result success">
+
+      <div class="result-icon">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+
+      <h2>Pembayaran Berhasil</h2>
+
+      <p>
+        Pesanan kamu berhasil dibuat.
+        Silahkan tunggu proses pengiriman.
+      </p>
+
+      <div class="result-card">
+        <span>ID Pesanan</span>
+        <b id="successOrderId">
+          NEXMED-000
+        </b>
+
+        <span>Total</span>
+        <b id="successTotal">
+          Rp. 0
+        </b>
+      </div>
+
+
+      <button onclick="showPage('homePage')">
+        Kembali ke Home
+      </button>
 
     </div>
 
   </div>
 
-  <!-- JS -->
-  <script src="script.js"></script>
 
+
+  <div class="page" id="paymentPendingPage">
+
+    <div class="payment-result pending">
+
+      <div class="result-icon">
+        <i class="fa-solid fa-clock"></i>
+      </div>
+
+
+      <h2>Sedang Diproses</h2>
+
+      <p>
+        Pembayaran masih menunggu konfirmasi.
+      </p>
+
+
+      <button onclick="showPage('homePage')">
+        Kembali
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="page" id="paymentFailedPage">
+
+    <div class="payment-result failed">
+
+      <div class="result-icon">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </div>
+
+
+      <h2>Pembayaran Gagal</h2>
+
+
+      <p>
+        Pembayaran tidak berhasil.
+        Silahkan coba lagi.
+      </p>
+
+
+      <button onclick="showPage('checkoutPage')">
+        Coba Lagi
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="page" id="paymentCancelPage">
+
+    <div class="payment-result cancel">
+
+      <div class="result-icon">
+        <i class="fa-solid fa-ban"></i>
+      </div>
+
+
+      <h2>Pembayaran Dibatalkan</h2>
+
+
+      <p>
+        Kamu membatalkan transaksi.
+      </p>
+
+
+      <button onclick="showPage('checkoutPage')">
+        Kembali
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
